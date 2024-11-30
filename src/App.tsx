@@ -1,35 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Container, Box, Typography, Button, Paper, Stack } from "@mui/material";
+import axios from "axios";
+import React, { useState } from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
+export const App = () => {
+  const [joke, setJoke] = useState<string | null>(null);
+
+  const fetchJoke = async () => {
+    try {
+      const response = await axios.get("https://icanhazdadjoke.com/", {
+        headers: { Accept: "application/json" },
+      });
+      setJoke(response.data.joke);
+    } catch (error) {
+      console.error("Error fetching joke:", error);
+    }
+  };
+
+  const handleClick = () => {
+    fetchJoke();
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
-
-export default App
+    <Stack margin={3} spacing={3}>
+        {joke && (
+          <Paper elevation={3} style={{ marginTop: "20px", padding: "10px" }}>
+            <Typography variant="h6" color="secondary">
+              {joke}
+            </Typography>
+          </Paper>
+        )}
+        <Button variant="contained" color="primary" onClick={handleClick}>
+          Don't click me
+        </Button>
+    </Stack>
+  );
+};
