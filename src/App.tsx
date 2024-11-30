@@ -1,4 +1,11 @@
-import { Container, Box, Typography, Button, Paper, Stack } from "@mui/material";
+import {
+  Container,
+  Box,
+  Typography,
+  Button,
+  Paper,
+  Stack,
+} from "@mui/material";
 import axios from "axios";
 import React, { useState } from "react";
 
@@ -19,19 +26,34 @@ export const App = () => {
   const handleClick = () => {
     fetchJoke();
   };
-
   return (
-    <Stack margin={3} spacing={3}>
+    <Box
+      display="flex"
+      flexDirection="column"
+      justifyContent="space-between"
+      height="90vh"
+      padding={3}
+      overflow="hidden"
+    >
+      <Stack
+        spacing={3}
+        sx={{
+          alignItems: "center",
+        }}
+      >
         {joke && (
-          <Paper elevation={3} style={{ marginTop: "20px", padding: "10px" }}>
+          <Paper elevation={3} style={{ padding: "10px" }}>
             <Typography variant="h6" color="secondary">
               {joke}
             </Typography>
           </Paper>
         )}
-        <Button variant="contained" color="primary" onClick={handleClick}>
+      </Stack>
+      <Box display="flex" justifyContent="center" marginBottom={3}>
+        <Button variant="contained" color="primary" onClick={handleClick} sx={{ width: '80%' }}>
           Don't click me
         </Button>
-    </Stack>
+      </Box>
+    </Box>
   );
 };
